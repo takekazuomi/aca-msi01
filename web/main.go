@@ -22,9 +22,9 @@ var (
 	host string = ""
 	port int    = 5000
 
-	subscription       string = "57d26261-a41c-41d5-a780-a673f00a4a61"
-	resourceGroupName  string = "omi01-rg"
-	storageAccountName string = "omi01g36j7g6rfmspq"
+	subscription       string
+	resourceGroupName  string
+	storageAccountName string
 )
 
 const EnvPrefix string = "MSI_"
