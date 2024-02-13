@@ -22,8 +22,6 @@ var (
 	host string = ""
 	port int    = 5000
 
-	subscription       string
-	resourceGroupName  string
 	storageAccountName string
 )
 
@@ -32,8 +30,6 @@ const EnvPrefix string = "MSI_"
 func init() {
 	fmt.Println("init()")
 	flag.BoolVarP(&help, "help", "h", false, "show this help message")
-	flag.StringVarP(&subscription, "subscription", "s", "", "Azure subscription ID")
-	flag.StringVarP(&resourceGroupName, "resource-group-name", "g", "", "resource group name")
 	flag.StringVarP(&storageAccountName, "storage-account-name", "n", "", "storage account name")
 	flag.StringVar(&host, "host", "", "listening host name")
 	flag.IntVarP(&port, "port", "p", 5000, "listening port")
