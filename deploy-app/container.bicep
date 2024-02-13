@@ -34,50 +34,49 @@ param acrName string
 
 var resources = [
   {
-    cpu: '0.25'
+    cpu: json('0.25')
     memory: '0.5Gi'
   }
   {
-    cpu: '0.5'
+    cpu: json('0.5')
     memory: '1.0Gi'
   }
   {
-    cpu: '0.75'
+    cpu: json('0.75')
     memory: '1.5Gi'
   }
   {
-    cpu: '1.0'
+    cpu: json('1.0')
     memory: '2.0Gi'
   }
   {
-    cpu: '1.25'
+    cpu: json('1.25')
     memory: '2.5Gi'
   }
   {
-    cpu: '1.5'
+    cpu: json('1.5')
     memory: '3.0Gi'
   }
   {
-    cpu: '1.75'
+    cpu: json('1.75')
     memory: '3.5Gi'
   }
   {
-    cpu: '2.0'
+    cpu: json('2.0')
     memory: '4.0Gi'
   }
 ]
 
-resource acr 'Microsoft.ContainerRegistry/registries@2021-09-01' existing = {
+resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: acrName
 }
 
 // https://github.com/Azure/azure-rest-api-specs/blob/09c4eba6c2d24c5f18226f36948d7987f3b50055/specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/ContainerApps.json#L412
-resource containerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
+resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
   name: containerAppName
   location: location
   identity: {
     type: 'SystemAssigned'
-    //type: 'None'
   }
   properties: {
     managedEnvironmentId: environmentId
