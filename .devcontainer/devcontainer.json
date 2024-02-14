@@ -21,6 +21,17 @@
 		"ghcr.io/guiyomh/features/golangci-lint:0": {
 			"version": "latest"
 		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go",
+				"EditorConfig.EditorConfig",
+				"mkhl.direnv",
+				"ms-azuretools.vscode-bicep",
+				"Pkl.pkl-vscode"
+			]
+		}
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.

@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "golang.go",
+        "editorconfig.editorconfig",
+        "mkhl.direnv",
+        "ms-azuretools.vscode-bicep",
+        "pkl.pkl-vscode"
+    ]
+}
