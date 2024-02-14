@@ -1,6 +1,6 @@
 KO_DOCKER_REPO	?= acamsiyuhk4mmbl5fmw.azurecr.io
 IMAGE_TAG ?= 0.0.1
-GO_CMD = ./cmd/web
+GO_CMD = ./cmd/msicheck
 
 
 help:		## show this help.
