@@ -19,27 +19,21 @@ import (
 
 var (
 	help bool   = false
-	host string = ""
+	host string = "0.0.0.0"
 	port int    = 5000
 
-	subscription       string
-	resourceGroupName  string
 	storageAccountName string
 )
 
 const EnvPrefix string = "MSI_"
 
 func init() {
-	fmt.Println("init()")
 	flag.BoolVarP(&help, "help", "h", false, "show this help message")
-	flag.StringVarP(&subscription, "subscription", "s", "", "Azure subscription ID")
-	flag.StringVarP(&resourceGroupName, "resource-group-name", "g", "", "resource group name")
 	flag.StringVarP(&storageAccountName, "storage-account-name", "n", "", "storage account name")
-	flag.StringVar(&host, "host", "", "listening host name")
-	flag.IntVarP(&port, "port", "p", 5000, "listening port")
+	flag.StringVar(&host, "host", host, "listening host name")
+	flag.IntVarP(&port, "port", "p", port, "listening port")
 	flag.Parse()
 	ApplyEnv(EnvPrefix)
-	fmt.Println("end init()")
 }
 
 func ApplyEnv(prefix string) []error {
@@ -76,15 +70,20 @@ func GetCredential() (*azidentity.DefaultAzureCredential, error) {
 
 func ListContainer(ctx context.Context, cred *azidentity.DefaultAzureCredential) ([]string, error) {
 
-	serviceClient, err := azblob.NewServiceClient(fmt.Sprintf("https://%v.blob.core.windows.net", storageAccountName), cred, nil)
+	//	serviceClient, err := azblob.NewServiceClient(fmt.Sprintf("https://%v.blob.core.windows.net", storageAccountName), cred, nil)
+	client, err := azblob.NewClient(fmt.Sprintf("https://%v.blob.core.windows.net", storageAccountName), cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	pager := serviceClient.ListContainers(nil)
+
+	pager := client.NewListContainersPager(nil)
 
 	ret := []string{}
-	for pager.NextPage(ctx) {
-		resp := pager.PageResponse()
+	for pager.More() {
+		resp, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
 
 		for _, v := range resp.ContainerItems {
 			ret = append(ret, *v.Name)
@@ -119,6 +118,12 @@ func main() {
 			http.Error(w, m, http.StatusInternalServerError)
 		}
 		c, err := ListContainer(r.Context(), cred)
+		if err != nil {
+			m := fmt.Sprintf("ListContainer error: %v", err)
+			log.Println(m)
+			http.Error(w, m, http.StatusInternalServerError)
+		}
+
 		for _, v := range c {
 			w.Write([]byte(v))
 			w.Write([]byte("\n"))
@@ -126,7 +131,8 @@ func main() {
 	})
 
 	addr := fmt.Sprintf("%v:%v", host, port)
-	log.Printf("Listen %v\n", addr)
+	log.Printf("Start Listen %v\n", addr)
+	log.Printf("http://%v/msicheck\n", addr)
 	setAzLogging()
 
 	err := http.ListenAndServe(addr, handlers.LoggingHandler(os.Stdout, http.DefaultServeMux))

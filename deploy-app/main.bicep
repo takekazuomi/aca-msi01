@@ -8,18 +8,20 @@ param location string = resourceGroup().location
 param minReplicas int = 0
 param transport string = 'auto'
 param allowInsecure bool = false
-param env array = []
+param envs string
 param acrName string
 param storageAccountName string
 param roleDefinitionName string
 
-resource environment 'Microsoft.App/managedEnvironments@2022-01-01-preview' existing = {
+resource environment 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
   name: environmentName
 }
 
-resource role 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
+resource role 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
   name: roleDefinitionName
 }
+
+var env = json(envs).envs
 
 module containerApps 'container.bicep' = {
   name: 'containerApps'
@@ -47,4 +49,6 @@ module roleAssignment 'roleAssignment.bicep' = {
     storageAccountName: storageAccountName
   }
 }
+
 output fqdn string = containerApps.outputs.fqdn
+output envs array = env

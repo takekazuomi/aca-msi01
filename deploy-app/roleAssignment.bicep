@@ -3,11 +3,11 @@ param containerAppPrincipalId string
 param containerAppResourceId string
 param storageAccountName string
 
-resource sa 'Microsoft.Storage/storageAccounts@2021-08-01' existing = {
+resource sa 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
 }
 
-resource storageRole 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource storageRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(containerAppResourceId, containerAppPrincipalId, roleDefinitionResourceId)
   scope: sa
   properties: {

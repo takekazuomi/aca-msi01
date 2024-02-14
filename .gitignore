@@ -3,3 +3,4 @@ tmp/
 env.json
 go.work*
 *~
+web/envs.json
