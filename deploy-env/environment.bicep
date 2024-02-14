@@ -2,8 +2,6 @@ param environmentName string
 param logAnalyticsWorkspaceName string = 'logs-${environmentName}'
 param appInsightsName string = 'appins-${environmentName}'
 param location string = resourceGroup().location
-//param controlPlaneSubnetId string
-//param applicationsSubnetId string
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: logAnalyticsWorkspaceName

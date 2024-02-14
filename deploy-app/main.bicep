@@ -8,7 +8,6 @@ param location string = resourceGroup().location
 param minReplicas int = 0
 param transport string = 'auto'
 param allowInsecure bool = false
-//param env array = []
 param envs string
 param acrName string
 param storageAccountName string

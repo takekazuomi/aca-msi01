@@ -100,19 +100,12 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         targetPort: containerPort
         transport: transport
         allowInsecure: allowInsecure
-        // traffic: [
-        //   {
-        //     weight: 100
-        //     latestRevision: true
-        //   }
-        // ]
       }
       dapr: {
         enabled: false
       }
     }
     template: {
-      // revisionSuffix: 'somevalue'
       containers: [
         {
           image: containerImage
