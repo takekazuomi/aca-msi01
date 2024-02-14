@@ -1,0 +1,12 @@
+envs = new Listing {
+  new {
+      name = "FOO_BAR"
+      value = read?("env:FOO_BAR") ?? "default foo bar messages"
+  }
+  new {
+    name= "MSI_STORAGE_ACCOUNT_NAME"
+    value= read("env:STORAGE_ACCOUNT_NAME")
+  }
+}
+
+
